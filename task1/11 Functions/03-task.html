@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task 3</title>
+</head>
+
+<body>
+<pre>
+        Завдання:
+        Виконайте рефакторинг коду. Винесіть блок коду масив count, що ініціалізує, і блок коду, що розраховує і виводить суму покупок у дві окремі функції.
+        Поведінка сценарію не повинна змінюватись.
+    </pre>
+<script>
+    // назви товарів
+    let names = [];
+    names[0] = "Папір офісний А4, 80 г/м2, 500 л";
+    names[1] = "Біндери для паперу 51 мм";
+    names[2] = "Ручка кулькова синя";
+
+    // ціни на товар
+    let prices = [];
+    prices[0] = 280.25; // Папір офісний А4, 80 г/м2, 500 л
+    prices[1] = 56;     // Біндери для паперу 51 мм
+    prices[2] = 12.50;  // Ручка кулькова синя
+
+    let count = createOrder(names);
+    showTotalOrder(names, prices, count);
+
+
+
+
+    function createOrder(arrayOfProducts) {
+        let counts = [];
+        for (let i = 0; i < arrayOfProducts.length; i++) {
+            const productName = arrayOfProducts[i];
+            let countToBuy = +prompt("Вкажіть кількість для " + productName);
+
+            if (isNaN(countToBuy))
+                countToBuy = 0;
+
+            counts.push(countToBuy);
+        }
+        return counts;
+    }
+
+    function showTotalOrder(arrayOfProduct, arrayOfPrices, arrayOfCount) {
+        let totalSum = 0;
+        for (let i = 0; i < arrayOfProduct.length; i++) {
+            const productName = arrayOfProduct[i];
+            const productPrice = arrayOfPrices[i];
+            const boughtCount = arrayOfCount[i];
+
+            let price = productPrice * boughtCount;
+            totalSum += price;
+            console.log(`Куплено ${productName} на суму ${price}`);
+        }
+        console.log("Всього продуктів куплено на " + totalSum);
+    }
+</script>
+</body>
+
+</html>

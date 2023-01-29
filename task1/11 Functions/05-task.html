@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 5</title>
+</head>
+
+<body>
+    <pre>
+        Завдання:
+        Створіть функцію, яка приймає масив значень і повертає масив з значеннями, що дублюються, або null якщо
+        повторюваних значень в масиві немає.
+    </pre>
+    <script>
+        // let values = [10, 20, 4, -1, 6, 125, 11, 9, 125, 125, 10, 8, 3, 5, -1, 89, 12, 46, 0, -1, 77, 3, 5, 4, -7, -1,
+        //     50, 100, 57, -7, 45, -7, 80, -1, 10, 0, 5, 0
+        // ];
+
+        /**масив без дублювальних записів для тестування**/
+        // let values = [0, 1, 2, 20, 50, 70, 80, 3, 4, 5, 6, 7];
+
+        /**рандомний массив на n- елементів для тестування**/
+        let values = new Array(10000);
+        for (let i = 0; i < values.length; i++) {
+            values[i] = Math.ceil(Math.random() * 2000000 - 1000000);
+        }
+       
+        let count = 1; 
+        let startTime = new Date();
+        console.log("Вхідні данні: довжина массиву у якому здійснюється пошук: " + values.length + " елем.");
+        let startTime1 = new Date();
+        let arrayOfDoubleValueFirthOption = findDoubleValue(values);
+        showResultFind(arrayOfDoubleValueFirthOption, count);
+        console.log("пошук значеннь, що дублюються склав: " + getTimeForHowMuchDone(startTime) + " мл.сек.");
+
+        count++;
+        startTime = new Date();
+        let arrayOfDoubleValueSecondOption = findDoubleValueWithOutCopyArray(values);
+        showResultFind(arrayOfDoubleValueSecondOption, count);
+        console.log("пошук значеннь, що дублюються склав: " + getTimeForHowMuchDone(startTime) + " мл.сек.");
+
+        count++;
+        startTime = new Date();
+        let arrayOfDoubleValueThirdOption = findDoubleValueThroughSort(values);
+        showResultFind(arrayOfDoubleValueThirdOption, count)
+        console.log("пошук значеннь, що дублюються склав: " + getTimeForHowMuchDone(startTime) + " мл.сек.");
+
+        count++;
+        startTime = new Date();
+        let arrayOfDoubleValueFourthOption = findDoubleValueThroughSet(values);
+        showResultFind(arrayOfDoubleValueFourthOption, count);
+        console.log("пошук значеннь, що дублюються склав: " + getTimeForHowMuchDone(startTime) + " мл.сек.");
+
+
+
+
+
+        function findDoubleValue(array) {
+            let tempValues = array.slice(0);
+            let arrayOfDoubleValue = [];
+            let j;
+            for (let i = array.length - 1; i >= 0; i--) {
+                j = tempValues.indexOf(array[i]);
+                if (j < i) {
+                    // if (j !== -1 && j !== i) {
+                    if (j !== -1) {
+                        arrayOfDoubleValue.push(array[i]);
+                        tempValues[i] = null;
+                        // tempValues[j] = null;
+                    }
+                    while (j !== -1 && j < i) {
+                        // arrayOfDoubleValue.push(array[j]);
+                        tempValues[j] = null;
+                        j = tempValues.indexOf(array[i]);
+                    }
+                }
+            }
+            return arrayOfDoubleValue.length !== 0 ? arrayOfDoubleValue : null;
+        }
+
+
+        function findDoubleValueWithOutCopyArray(array) {
+            let size = array.length;
+            let arrayOfDoubleValue = [];
+            for (let i = 0; i < size; i++) {
+                for (let j = i + 1; j < size; j++) {
+                    if (array[i] == array[j]) {
+                        if (arrayOfDoubleValue.indexOf(array[i]) == -1)
+                            arrayOfDoubleValue.push(array[i]);
+                        break
+                    }
+                }
+            }
+            return arrayOfDoubleValue.length != 0 ? arrayOfDoubleValue : null;
+        }
+
+
+        function findDoubleValueThroughSort(array) {
+            let size = array.length;
+            let tempArray = array.slice(0);
+            let arrayOfDoubleValue = [];
+            tempArray.sort((a, b) => a - b);
+            let i = 0;
+            let j = 1;
+            while (j < size) {
+                if (tempArray[i] == tempArray[j]) {
+                    arrayOfDoubleValue.push(tempArray[i]);
+                }
+                while (tempArray[i] == tempArray[j]) {
+                    // arrayOfDoubleValue.push(tempArray[j]);
+                    j++;
+                }
+                i = j;
+                j++;
+                while (tempArray[i] != tempArray[j]) {
+                    i++;
+                    j++;
+                }
+            }
+            return arrayOfDoubleValue.length !== 0 ? arrayOfDoubleValue : null;
+        }
+
+
+        function findDoubleValueThroughSet(array) {
+            let size = array.length;
+            let tempSet = new Set();
+            let tempSecondarySet = new Set();
+            for (let i = 0; i < size; i++) {
+                if (tempSet.has(array[i])) {
+                    tempSecondarySet.add(array[i]);
+                } else {
+                    tempSet.add(array[i]);
+                }
+            }
+            let arrayOfDoubleValue = Array.from(tempSecondarySet);
+            return arrayOfDoubleValue.length !== 0 ? arrayOfDoubleValue : null;
+        }
+
+
+        function showResultFind(arrayOfDouble, count) {
+            console.log("  №"+ count + "-й варіант алгоритму, однакові елементи:" + (arrayOfDouble === null ? " " : " array[") + arrayOfDouble + (
+                arrayOfDouble === null ? ";" : "]"));
+            console.log("довжина добутого массиву в " + count + "-му варіанті рішення: " + (arrayOfDouble ===
+                null ?
+                "масив повернув 'null'" :
+                arrayOfDouble.length));
+        }
+
+
+        function getTimeForHowMuchDone(startTime) {
+            return new Date - startTime;
+        }
+    </script>
+</body>
+
+</html>

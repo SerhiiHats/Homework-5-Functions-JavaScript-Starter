@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task X</title>
+</head>
+
+<body>
+    <pre>
+        Завдання:
+        Запитайте у користувача число. Виведіть усі числа в обраному одязі від введеного користувачем значення до 1.
+        Використовуйте для вирішення рекурсію.
+    </pre>
+    <script>
+        let finishNumber = getUserNumber();
+        getAllNumberWithUserNumberToOneNumber(finishNumber);
+
+
+
+        function getUserNumber() {
+            let numberUser;
+            while (true) {
+                numberUser = prompt("Введите число больше 0. \nдля выхода нажмите ESC");
+                if (numberUser === null) {
+                    break;
+                }
+                if (numberUser <= 0) {
+                    alert("Ошибка! Вы ввели: '" + numberUser + "' это не больше чем 0. попробуйте снова!");
+                    continue;
+                }
+
+                if (isNaN(numberUser)) {
+                    alert("Ошибка! Вы ввели: '" + numberUser + "' это не число. попробуйте снова!");
+                } else {
+                    break;
+                }
+            }
+            return numberUser !== null ? Number(numberUser) : -1;
+        }
+
+
+        function getAllNumberWithUserNumberToOneNumber(numberUser) {
+            if (numberUser === -1) {
+                alert("Вы прекратили работу, нажата клавиша ESC");
+            }
+
+            if (numberUser > 0) {
+                console.log(numberUser);
+                getAllNumberWithUserNumberToOneNumber(numberUser - 1);
+            } else {
+                return;
+            }
+        }
+    </script>
+</body>
+
+</html>
